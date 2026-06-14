@@ -1,5 +1,13 @@
 import { useState } from "react";
 import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/clerk-react";
+
+import {
   Brain,
   FileText,
   Map,
@@ -7,6 +15,7 @@ import {
   Trophy,
   Rocket,
 } from "lucide-react";
+
 import ProjectTracker from "./components/ProjectTracker";
 import "./App.css";
 
@@ -25,7 +34,7 @@ function App() {
 
   function analyzeResume() {
     if (!fileName) {
-      alert("Please upload your resume first");
+      alert("Please upload a resume first");
       return;
     }
 
@@ -36,19 +45,32 @@ function App() {
     <div className="app">
       <nav className="navbar">
         <h2>CareerForge</h2>
-        <div>
-          <a href="#features">Features</a>
-          <a href="#resume">Resume</a>
-          <a href="#roadmap">Roadmap</a>
+
+        <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
+          <SignedOut>
+            <SignInButton mode="modal">
+              <button>Sign In</button>
+            </SignInButton>
+
+            <SignUpButton mode="modal">
+              <button>Sign Up</button>
+            </SignUpButton>
+          </SignedOut>
+
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
         </div>
       </nav>
 
       <section className="hero">
         <h1>Forge Your Tech Career</h1>
+
         <p>
           A student career dashboard for SDE, AI/ML, Quant, projects, resumes
           and internship preparation.
         </p>
+
         <button>
           <Rocket size={18} /> Start Building
         </button>
@@ -85,22 +107,25 @@ function App() {
           <div className="card">
             <Trophy size={40} />
             <h3>Internship Prep</h3>
-            <p>Prepare for coding rounds, contests and interviews.</p>
+            <p>Prepare for coding rounds and interviews.</p>
           </div>
 
           <div className="card">
             <Rocket size={40} />
             <h3>Launch Ready</h3>
-            <p>Build a portfolio that looks professional and real.</p>
+            <p>Build a professional portfolio.</p>
           </div>
         </div>
       </section>
 
       <section id="resume" className="section resume-box">
         <h2>Resume Analyzer</h2>
-        <p>Upload your resume PDF and get an instant sample review.</p>
 
-        <input type="file" accept=".pdf" onChange={handleFileChange} />
+        <input
+          type="file"
+          accept=".pdf"
+          onChange={handleFileChange}
+        />
 
         {fileName && (
           <p className="file-name">
@@ -108,56 +133,51 @@ function App() {
           </p>
         )}
 
-        <button onClick={analyzeResume}>Analyze Resume</button>
+        <button onClick={analyzeResume}>
+          Analyze Resume
+        </button>
 
         {showResult && (
           <div className="result">
             <h3>Resume Report</h3>
-            <p>
-              <b>ATS Score:</b> 78/100
-            </p>
-            <p>
-              <b>Strong Area:</b> Technical skills and project section.
-            </p>
-            <p>
-              <b>Weak Area:</b> Missing measurable impact and live links.
-            </p>
-            <p>
-              <b>Suggestion:</b> Add GitHub, LinkedIn, deployed project URLs and
-              numbers like “reduced time by 30%” or “built for 100+ users”.
-            </p>
+            <p><b>ATS Score:</b> 78/100</p>
+            <p><b>Strong Area:</b> Technical skills section.</p>
+            <p><b>Weak Area:</b> Missing impact metrics.</p>
+            <p><b>Suggestion:</b> Add GitHub, LinkedIn and project links.</p>
           </div>
         )}
       </section>
-       <ProjectTracker />
+
+      <ProjectTracker />
+
       <section id="roadmap" className="section">
         <h2>Your 4-Step Career Roadmap</h2>
 
         <div className="timeline">
           <div>
             <h3>1. Master DSA</h3>
-            <p>Arrays, strings, recursion, linked list, trees, graphs and DP.</p>
+            <p>Arrays, Trees, Graphs, DP.</p>
           </div>
 
           <div>
             <h3>2. Learn Full Stack</h3>
-            <p>React, Node.js, Express, MongoDB, APIs and deployment.</p>
+            <p>React, Node.js, APIs, Databases.</p>
           </div>
 
           <div>
             <h3>3. Build Projects</h3>
-            <p>Create 3 strong projects with GitHub repos and live links.</p>
+            <p>Deploy real-world applications.</p>
           </div>
 
           <div>
             <h3>4. Apply for Internships</h3>
-            <p>Use referrals, LinkedIn, GitHub, hackathons and cold emails.</p>
+            <p>Referrals, LinkedIn, Hackathons.</p>
           </div>
         </div>
       </section>
 
       <footer>
-        <p>Made by Tanay Ranjan | CareerForge Dashboard</p>
+        <p>Made by Tanay Ranjan | CareerForge</p>
       </footer>
     </div>
   );
