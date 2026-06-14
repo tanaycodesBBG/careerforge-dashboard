@@ -1,117 +1,85 @@
-import Sidebar from "./Sidebar";
+import "./App.css";
 
 function App() {
   return (
-    <div style={{ display: "flex" }}>
-      <Sidebar />
-
-      <div style={{ padding: "25px", flex: 1 }}>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <input
-            type="text"
-            placeholder="Search applications..."
-            style={{
-              width: "400px",
-              padding: "12px",
-              borderRadius: "12px",
-              border: "none",
-              background: "#1e293b",
-              color: "white",
-            }}
-          />
-
-          <div
-            style={{
-              background: "#4f46e5",
-              width: "45px",
-              height: "45px",
-              borderRadius: "50%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              fontWeight: "bold",
-            }}
-          >
-            T
-          </div>
+    <div className="app">
+      <nav className="navbar">
+        <h2>CareerForge</h2>
+        <div>
+          <a href="#features">Features</a>
+          <a href="#resume">Resume</a>
+          <a href="#roadmap">Roadmap</a>
         </div>
+      </nav>
 
-        <h1 style={{ fontSize: "48px", textAlign: "center" }}>
-          Welcome Back 👋
-        </h1>
-
-        <p style={{ textAlign: "center", color: "#94a3b8" }}>
-          Track applications, interviews and career growth
+      <section className="hero">
+        <h1>Build Your Career Like a Pro</h1>
+        <p>
+          CareerForge helps students prepare for SDE, AI/ML, Quant and tech
+          internships with resume analysis, skill roadmap and project planning.
         </p>
+        <button>Start Now</button>
+      </section>
 
-        <div style={{ display: "flex", gap: "20px", marginTop: "25px" }}>
-          <div style={cardStyle}>
-            <h3>Active Opportunities</h3>
-            <h2 style={{ color: "#22c55e" }}>148</h2>
+      <section id="features" className="section">
+        <h2>Features</h2>
+        <div className="cards">
+          <div className="card">
+            <h3>Resume Analyzer</h3>
+            <p>Upload your resume and get improvement suggestions.</p>
           </div>
-
-          <div style={cardStyle}>
-            <h3>Applications Sent</h3>
-            <h2 style={{ color: "#38bdf8" }}>63</h2>
+          <div className="card">
+            <h3>Skill Roadmap</h3>
+            <p>Get step-by-step learning path for your dream role.</p>
           </div>
-
-          <div style={cardStyle}>
-            <h3>Interview Pipeline</h3>
-            <h2 style={{ color: "#facc15" }}>8</h2>
-          </div>
-
-          <div style={cardStyle}>
-            <h3>Productivity Score</h3>
-            <h2 style={{ color: "#a78bfa" }}>92%</h2>
+          <div className="card">
+            <h3>Project Ideas</h3>
+            <p>Find portfolio projects for internships and placements.</p>
           </div>
         </div>
+      </section>
 
-        <div style={sectionStyle}>
-          <h2>Recent Activity</h2>
-          <p>✅ Applied to Google SWE Internship</p>
-          <p>📚 Completed 5 DSA Problems</p>
-          <p>🎯 Interview Scheduled at Amazon</p>
+      <section id="resume" className="section resume-box">
+        <h2>Resume Analyzer</h2>
+        <p>Upload your resume PDF</p>
+        <input type="file" accept=".pdf" />
+        <button>Analyze Resume</button>
+
+        <div className="result">
+          <h3>Sample Result</h3>
+          <p><b>ATS Score:</b> 72/100</p>
+          <p><b>Strength:</b> Good technical skills section.</p>
+          <p><b>Improve:</b> Add project links, GitHub and measurable impact.</p>
         </div>
+      </section>
 
-        <div style={{ display: "flex", gap: "20px", marginTop: "20px" }}>
-          <div style={{ ...sectionStyle, flex: 1, marginTop: 0 }}>
-            <h2>Priority Tasks</h2>
-            <p>☐ Update Resume</p>
-            <p>☐ Apply to 10 Companies</p>
-            <p>☐ Solve 3 Leetcode Problems</p>
-            <p>☐ Prepare for Interview</p>
+      <section id="roadmap" className="section">
+        <h2>Career Roadmap</h2>
+        <div className="timeline">
+          <div>
+            <h3>Step 1: DSA</h3>
+            <p>Arrays, strings, recursion, trees, graphs, DP.</p>
           </div>
-
-          <div style={{ ...sectionStyle, flex: 1, marginTop: 0 }}>
-            <h2>DSA Progress</h2>
-            <p>Arrays: 85%</p>
-            <p>Linked List: 70%</p>
-            <p>Trees: 50%</p>
-            <p>Graphs: 30%</p>
+          <div>
+            <h3>Step 2: Development</h3>
+            <p>React, Node.js, APIs, databases, deployment.</p>
+          </div>
+          <div>
+            <h3>Step 3: Projects</h3>
+            <p>Build 3 strong projects and deploy them live.</p>
+          </div>
+          <div>
+            <h3>Step 4: Internships</h3>
+            <p>Apply through LinkedIn, referrals, GitHub and contests.</p>
           </div>
         </div>
-      </div>
+      </section>
+
+      <footer>
+        <p>Made by Tanay | CareerForge Dashboard</p>
+      </footer>
     </div>
   );
 }
-
-const cardStyle = {
-  background: "#1e293b",
-  color: "white",
-  padding: "20px",
-  borderRadius: "20px",
-  width: "230px",
-  height: "150px",
-  boxShadow: "0px 4px 15px rgba(0,0,0,0.3)",
-  textAlign: "center",
-};
-
-const sectionStyle = {
-  background: "#1e293b",
-  marginTop: "35px",
-  padding: "20px",
-  borderRadius: "20px",
-  boxShadow: "0px 4px 15px rgba(0,0,0,0.3)",
-};
 
 export default App;
