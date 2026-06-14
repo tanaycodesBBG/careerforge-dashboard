@@ -121,31 +121,48 @@ function App() {
       <section id="resume" className="section resume-box">
         <h2>Resume Analyzer</h2>
 
-        <input
-          type="file"
-          accept=".pdf"
-          onChange={handleFileChange}
-        />
-
-        {fileName && (
-          <p className="file-name">
-            Uploaded: <b>{fileName}</b>
-          </p>
-        )}
-
-        <button onClick={analyzeResume}>
-          Analyze Resume
-        </button>
-
-        {showResult && (
+        <SignedOut>
           <div className="result">
-            <h3>Resume Report</h3>
-            <p><b>ATS Score:</b> 78/100</p>
-            <p><b>Strong Area:</b> Technical skills section.</p>
-            <p><b>Weak Area:</b> Missing impact metrics.</p>
-            <p><b>Suggestion:</b> Add GitHub, LinkedIn and project links.</p>
+            <h3>Login Required</h3>
+            <p>Please sign in to upload and analyze your resume.</p>
+
+            <SignInButton mode="modal">
+              <button>Sign In to Continue</button>
+            </SignInButton>
           </div>
-        )}
+        </SignedOut>
+
+        <SignedIn>
+          <p>Upload your resume PDF and get an instant sample review.</p>
+
+          <input type="file" accept=".pdf" onChange={handleFileChange} />
+
+          {fileName && (
+            <p className="file-name">
+              Uploaded: <b>{fileName}</b>
+            </p>
+          )}
+
+          <button onClick={analyzeResume}>Analyze Resume</button>
+
+          {showResult && (
+            <div className="result">
+              <h3>Resume Report</h3>
+              <p>
+                <b>ATS Score:</b> 78/100
+              </p>
+              <p>
+                <b>Strong Area:</b> Technical skills section.
+              </p>
+              <p>
+                <b>Weak Area:</b> Missing impact metrics.
+              </p>
+              <p>
+                <b>Suggestion:</b> Add GitHub, LinkedIn and project links.
+              </p>
+            </div>
+          )}
+        </SignedIn>
       </section>
 
       <ProjectTracker />
