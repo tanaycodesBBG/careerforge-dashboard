@@ -1,3 +1,11 @@
+import {
+  Brain,
+  FileText,
+  Map,
+  Code2,
+  Trophy,
+  Rocket,
+} from "lucide-react";
 import "./App.css";
 
 function App() {
@@ -13,70 +21,101 @@ function App() {
       </nav>
 
       <section className="hero">
-        <h1>Build Your Career Like a Pro</h1>
+        <h1>Forge Your Tech Career</h1>
         <p>
-          CareerForge helps students prepare for SDE, AI/ML, Quant and tech
-          internships with resume analysis, skill roadmap and project planning.
+          A student career dashboard for SDE, AI/ML, Quant, projects, resumes
+          and internship preparation.
         </p>
-        <button>Start Now</button>
+        <button>
+          <Rocket size={18} /> Start Building
+        </button>
       </section>
 
       <section id="features" className="section">
-        <h2>Features</h2>
+        <h2>What CareerForge Helps With</h2>
         <div className="cards">
           <div className="card">
+            <FileText size={40} />
             <h3>Resume Analyzer</h3>
-            <p>Upload your resume and get improvement suggestions.</p>
+            <p>Improve your resume for internships and placements.</p>
           </div>
+
           <div className="card">
-            <h3>Skill Roadmap</h3>
-            <p>Get step-by-step learning path for your dream role.</p>
+            <Map size={40} />
+            <h3>Career Roadmap</h3>
+            <p>Follow a clear path for SDE, AI/ML and Quant roles.</p>
           </div>
+
           <div className="card">
-            <h3>Project Ideas</h3>
-            <p>Find portfolio projects for internships and placements.</p>
+            <Code2 size={40} />
+            <h3>Project Tracker</h3>
+            <p>Track projects, GitHub links and deployment progress.</p>
+          </div>
+
+          <div className="card">
+            <Brain size={40} />
+            <h3>Skill Planner</h3>
+            <p>Plan DSA, development, system design and ML learning.</p>
+          </div>
+
+          <div className="card">
+            <Trophy size={40} />
+            <h3>Internship Prep</h3>
+            <p>Prepare for coding rounds, contests and interviews.</p>
+          </div>
+
+          <div className="card">
+            <Rocket size={40} />
+            <h3>Launch Ready</h3>
+            <p>Build a portfolio that looks professional and real.</p>
           </div>
         </div>
       </section>
 
       <section id="resume" className="section resume-box">
         <h2>Resume Analyzer</h2>
-        <p>Upload your resume PDF</p>
+        <p>Upload your resume PDF and get a sample review.</p>
+
         <input type="file" accept=".pdf" />
         <button>Analyze Resume</button>
 
         <div className="result">
-          <h3>Sample Result</h3>
-          <p><b>ATS Score:</b> 72/100</p>
-          <p><b>Strength:</b> Good technical skills section.</p>
-          <p><b>Improve:</b> Add project links, GitHub and measurable impact.</p>
+          <h3>Sample Resume Report</h3>
+          <p><b>ATS Score:</b> 78/100</p>
+          <p><b>Strong Area:</b> Technical skills and project section.</p>
+          <p><b>Weak Area:</b> Missing measurable impact and live links.</p>
+          <p><b>Suggestion:</b> Add GitHub, LinkedIn, deployed project URLs and numbers.</p>
         </div>
       </section>
 
       <section id="roadmap" className="section">
-        <h2>Career Roadmap</h2>
+        <h2>Your 4-Step Career Roadmap</h2>
+
         <div className="timeline">
           <div>
-            <h3>Step 1: DSA</h3>
-            <p>Arrays, strings, recursion, trees, graphs, DP.</p>
+            <h3>1. Master DSA</h3>
+            <p>Arrays, strings, recursion, linked list, trees, graphs and DP.</p>
           </div>
+
           <div>
-            <h3>Step 2: Development</h3>
-            <p>React, Node.js, APIs, databases, deployment.</p>
+            <h3>2. Learn Full Stack</h3>
+            <p>React, Node.js, Express, MongoDB, APIs and deployment.</p>
           </div>
+
           <div>
-            <h3>Step 3: Projects</h3>
-            <p>Build 3 strong projects and deploy them live.</p>
+            <h3>3. Build Projects</h3>
+            <p>Create 3 strong projects with GitHub repos and live links.</p>
           </div>
+
           <div>
-            <h3>Step 4: Internships</h3>
-            <p>Apply through LinkedIn, referrals, GitHub and contests.</p>
+            <h3>4. Apply for Internships</h3>
+            <p>Use referrals, LinkedIn, GitHub, hackathons and cold emails.</p>
           </div>
         </div>
       </section>
 
       <footer>
-        <p>Made by Tanay | CareerForge Dashboard</p>
+        <p>Made by Tanay Ranjan | CareerForge Dashboard</p>
       </footer>
     </div>
   );
