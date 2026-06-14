@@ -19,6 +19,7 @@ import {
 import ProjectTracker from "./components/ProjectTracker";
 import InternshipTracker from "./components/InternshipTracker";
 import Contact from "./components/Contact";
+import SkillsProgress from "./components/SkillsProgress";
 import "./App.css";
 
 function App() {
@@ -169,6 +170,7 @@ function App() {
 
       <ProjectTracker />
       <InternshipTracker />
+      <SkillsProgress />
       <Contact />
 
       <section id="roadmap" className="section">
