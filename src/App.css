@@ -186,4 +186,8 @@ footer {
   .hero p {
     font-size: 17px;
   }
+  .file-name {
+  margin-top: 10px;
+  color: #38bdf8;
+}
 }

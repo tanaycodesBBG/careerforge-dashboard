@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Brain,
   FileText,
@@ -9,6 +10,27 @@ import {
 import "./App.css";
 
 function App() {
+  const [fileName, setFileName] = useState("");
+  const [showResult, setShowResult] = useState(false);
+
+  function handleFileChange(event) {
+    const file = event.target.files[0];
+
+    if (file) {
+      setFileName(file.name);
+      setShowResult(false);
+    }
+  }
+
+  function analyzeResume() {
+    if (!fileName) {
+      alert("Please upload your resume first");
+      return;
+    }
+
+    setShowResult(true);
+  }
+
   return (
     <div className="app">
       <nav className="navbar">
@@ -33,6 +55,7 @@ function App() {
 
       <section id="features" className="section">
         <h2>What CareerForge Helps With</h2>
+
         <div className="cards">
           <div className="card">
             <FileText size={40} />
@@ -74,18 +97,36 @@ function App() {
 
       <section id="resume" className="section resume-box">
         <h2>Resume Analyzer</h2>
-        <p>Upload your resume PDF and get a sample review.</p>
+        <p>Upload your resume PDF and get an instant sample review.</p>
 
-        <input type="file" accept=".pdf" />
-        <button>Analyze Resume</button>
+        <input type="file" accept=".pdf" onChange={handleFileChange} />
 
-        <div className="result">
-          <h3>Sample Resume Report</h3>
-          <p><b>ATS Score:</b> 78/100</p>
-          <p><b>Strong Area:</b> Technical skills and project section.</p>
-          <p><b>Weak Area:</b> Missing measurable impact and live links.</p>
-          <p><b>Suggestion:</b> Add GitHub, LinkedIn, deployed project URLs and numbers.</p>
-        </div>
+        {fileName && (
+          <p className="file-name">
+            Uploaded: <b>{fileName}</b>
+          </p>
+        )}
+
+        <button onClick={analyzeResume}>Analyze Resume</button>
+
+        {showResult && (
+          <div className="result">
+            <h3>Resume Report</h3>
+            <p>
+              <b>ATS Score:</b> 78/100
+            </p>
+            <p>
+              <b>Strong Area:</b> Technical skills and project section.
+            </p>
+            <p>
+              <b>Weak Area:</b> Missing measurable impact and live links.
+            </p>
+            <p>
+              <b>Suggestion:</b> Add GitHub, LinkedIn, deployed project URLs and
+              numbers like “reduced time by 30%” or “built for 100+ users”.
+            </p>
+          </div>
+        )}
       </section>
 
       <section id="roadmap" className="section">
