@@ -7,6 +7,7 @@ import {
   Trophy,
   Rocket,
 } from "lucide-react";
+import ProjectTracker from "./components/ProjectTracker";
 import "./App.css";
 
 function App() {
@@ -128,7 +129,7 @@ function App() {
           </div>
         )}
       </section>
-
+       <ProjectTracker />
       <section id="roadmap" className="section">
         <h2>Your 4-Step Career Roadmap</h2>
 
