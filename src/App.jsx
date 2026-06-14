@@ -17,6 +17,8 @@ import {
 } from "lucide-react";
 
 import ProjectTracker from "./components/ProjectTracker";
+import InternshipTracker from "./components/InternshipTracker";
+import Contact from "./components/Contact";
 import "./App.css";
 
 function App() {
@@ -166,6 +168,8 @@ function App() {
       </section>
 
       <ProjectTracker />
+      <InternshipTracker />
+      <Contact />
 
       <section id="roadmap" className="section">
         <h2>Your 4-Step Career Roadmap</h2>
