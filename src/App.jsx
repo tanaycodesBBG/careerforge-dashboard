@@ -19,6 +19,7 @@ import {
 import ProjectTracker from "./components/ProjectTracker";
 import InternshipTracker from "./components/InternshipTracker";
 import Contact from "./components/Contact";
+import TestSupabase from "./components/TestSupabase";
 import SkillsProgress from "./components/SkillsProgress";
 import "./App.css";
 
@@ -195,7 +196,8 @@ function App() {
           )}
         </SignedIn>
       </section>
-
+     
+      <TestSupabase />
       <ProjectTracker />
       <InternshipTracker />
       <SkillsProgress />
