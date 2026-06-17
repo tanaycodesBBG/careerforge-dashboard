@@ -25,6 +25,7 @@ import "./App.css";
 function App() {
   const [fileName, setFileName] = useState("");
   const [showResult, setShowResult] = useState(false);
+  const [atsScore, setAtsScore] = useState(0);
 
   function handleFileChange(event) {
     const file = event.target.files[0];
@@ -36,13 +37,17 @@ function App() {
   }
 
   function analyzeResume() {
-    if (!fileName) {
-      alert("Please upload a resume first");
-      return;
-    }
-
-    setShowResult(true);
+  if (!fileName) {
+    alert("Please upload a resume first");
+    return;
   }
+
+  const randomScore =
+    Math.floor(Math.random() * 31) + 70;
+
+  setAtsScore(randomScore);
+  setShowResult(true);
+}
 
   return (
     <div className="app">
@@ -74,9 +79,9 @@ function App() {
           and internship preparation.
         </p>
 
-        <button>
-          <Rocket size={18} /> Start Building
-        </button>
+      <a href="#resume" className="hero-button">
+  <Rocket size={18} /> Start Building
+</a>
       </section>
 
       <section id="features" className="section">
@@ -152,7 +157,7 @@ function App() {
             <div className="result">
               <h3>Resume Report</h3>
               <p>
-                <b>ATS Score:</b> 78/100
+                <b>ATS Score:</b> {atsScore}/100
               </p>
               <p>
                 <b>Strong Area:</b> Technical skills section.

@@ -15,7 +15,7 @@ function ProjectTracker() {
   ];
 
   return (
-    <section className="section">
+    <section id="projects" className="section">
       <h2>Project Tracker</h2>
 
       <div className="cards">

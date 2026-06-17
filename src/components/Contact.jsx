@@ -1,6 +1,6 @@
 function Contact() {
   return (
-    <section className="section">
+    <section id="contact" className="section">
       <h2>Contact Us</h2>
 
       <div className="card" style={{ maxWidth: "500px", margin: "auto" }}>
