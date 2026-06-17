@@ -214,4 +214,33 @@ footer {
 html {
   scroll-behavior: smooth;
 }
+.dark {
+  background: #0f172a;
+  color: white;
+  min-height: 100vh;
+}
+
+.light {
+  background: #f8fafc;
+  color: #0f172a;
+  min-height: 100vh;
+}
+
+.light .card,
+.light .timeline div,
+.light .result {
+  background: white;
+  color: #0f172a;
+}
+
+.light .navbar,
+.light footer {
+  background: #e2e8f0;
+}
+
+.light .card p,
+.light .result p,
+.light .timeline p {
+  color: #334155;
+}
 }

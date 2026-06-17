@@ -26,7 +26,7 @@ function App() {
   const [fileName, setFileName] = useState("");
   const [showResult, setShowResult] = useState(false);
   const [atsScore, setAtsScore] = useState(0);
-
+  const [darkMode, setDarkMode] = useState(true);
   function handleFileChange(event) {
     const file = event.target.files[0];
 
@@ -50,11 +50,16 @@ function App() {
 }
 
   return (
-    <div className="app">
+    <div className={darkMode ? "app dark" : "app light"}>
       <nav className="navbar">
         <h2>CareerForge</h2>
 
         <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
+          <button
+  onClick={() => setDarkMode(!darkMode)}
+>
+  {darkMode ? "☀️ Light" : "🌙 Dark"}
+</button>
           <SignedOut>
             <SignInButton mode="modal">
               <button>Sign In</button>
