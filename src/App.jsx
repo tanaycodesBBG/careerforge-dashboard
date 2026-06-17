@@ -157,8 +157,21 @@ function App() {
             <div className="result">
               <h3>Resume Report</h3>
               <p>
-                <b>ATS Score:</b> {atsScore}/100
-              </p>
+  <b>ATS Score:</b>{" "}
+  <span
+    style={{
+      color:
+        atsScore < 75
+          ? "red"
+          : atsScore <= 85
+          ? "orange"
+          : "limegreen",
+      fontWeight: "bold",
+    }}
+  >
+    {atsScore}/100
+  </span>
+</p>
               <p>
                 <b>Strong Area:</b> Technical skills section.
               </p>
@@ -166,8 +179,13 @@ function App() {
                 <b>Weak Area:</b> Missing impact metrics.
               </p>
               <p>
-                <b>Suggestion:</b> Add GitHub, LinkedIn and project links.
-              </p>
+  <b>Suggestion:</b>{" "}
+  {atsScore < 75
+    ? "Your resume needs significant improvement. Add projects, skills and links."
+    : atsScore <= 85
+    ? "Good resume. Add measurable achievements and improve formatting."
+    : "Excellent resume. Ready for most internship applications."}
+</p>
             </div>
           )}
         </SignedIn>
