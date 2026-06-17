@@ -28,7 +28,20 @@ function ProjectTracker() {
     }
 
     setLoading(true);
+async function deleteProject(id) {
+  const { error } = await supabase
+    .from("projects")
+    .delete()
+    .eq("id", id);
 
+  if (error) {
+    console.log(error);
+    alert("Delete failed");
+    return;
+  }
+
+  fetchProjects();
+}
     const { error } = await supabase.from("projects").insert([
       {
         title: title,
@@ -79,11 +92,18 @@ function ProjectTracker() {
       <div className="cards">
         {projects.map((project) => (
           <div className="card" key={project.id}>
-            <h3>{project.title}</h3>
-            <p>
-              <b>Status:</b> {project.status}
-            </p>
-          </div>
+  <h3>{project.title}</h3>
+
+  <p>
+    <b>Status:</b> {project.status}
+  </p>
+
+  <button
+    onClick={() => deleteProject(project.id)}
+  >
+    Delete
+  </button>
+</div>
         ))}
       </div>
     </section>
