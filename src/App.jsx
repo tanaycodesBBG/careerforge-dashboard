@@ -71,8 +71,10 @@ function App() {
           </SignedOut>
 
           <SignedIn>
-            <UserButton />
-          </SignedIn>
+  <div style={{ background: "white", padding: "6px", borderRadius: "50%" }}>
+    <UserButton />
+  </div>
+</SignedIn>
         </div>
       </nav>
 
@@ -196,11 +198,23 @@ function App() {
         </SignedIn>
       </section>
      
-      <ProjectTracker />
-      <InternshipTracker />
-      <SkillsProgress />
-      <Contact />
+      <SignedIn>
+  <ProjectTracker />
+  <InternshipTracker />
+  <SkillsProgress />
+</SignedIn>
 
+<SignedOut>
+  <section className="section">
+    <h2>Login Required</h2>
+    <p>
+      Please sign in to access your personal dashboard,
+      projects and internship tracker.
+    </p>
+  </section>
+</SignedOut>
+
+<Contact />
       <section id="roadmap" className="section">
         <h2>Your 4-Step Career Roadmap</h2>
 
