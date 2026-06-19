@@ -33,9 +33,30 @@ function CalendarView() {
       <h2>🗓️ Calendar View</h2>
 
       <Calendar
-        onChange={setDate}
-        value={date}
+  onChange={setDate}
+  value={date}
+  tileContent={({ date }) => {
+    const formattedDate =
+      date.toISOString().split("T")[0];
+
+    const hasEvent = events.some(
+      (event) => event.event_date === formattedDate
+    );
+
+    return hasEvent ? (
+      <div
+        style={{
+          height: "8px",
+          width: "8px",
+          borderRadius: "50%",
+          background: "#38bdf8",
+          margin: "0 auto",
+          marginTop: "2px",
+        }}
       />
+    ) : null;
+  }}
+/>
 
       <div className="result">
         <h3>
