@@ -24,6 +24,8 @@ import InternshipTracker from "./components/InternshipTracker";
 import Contact from "./components/Contact";
 import SkillsProgress from "./components/SkillsProgress";
 import EventCalendar from "./components/EventCalendar";
+import DashboardStats from "./components/DashboardStats";
+import UpcomingEvents from "./components/UpcomingEvents";
 import "./App.css";
 
 function App() {
@@ -304,12 +306,13 @@ function App() {
       </section>
 
       <SignedIn>
+  <DashboardStats />
+  <UpcomingEvents />
   <EventCalendar />
   <ProjectTracker />
   <InternshipTracker />
   <SkillsProgress />
 </SignedIn>
-
       <SignedOut>
         <section className="section">
           <h2>Login Required</h2>
