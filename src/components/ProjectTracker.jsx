@@ -42,6 +42,29 @@ async function deleteProject(id) {
 
   fetchProjects();
 }
+async function updateStatus(project) {
+  let newStatus = "Planned";
+
+  if (project.status === "Planned") {
+    newStatus = "In Progress";
+  } else if (project.status === "In Progress") {
+    newStatus = "Completed";
+  }
+
+  const { error } = await supabase
+    .from("projects")
+    .update({
+      status: newStatus,
+    })
+    .eq("id", project.id);
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  fetchProjects();
+}
     const { error } = await supabase.from("projects").insert([
       {
         title: title,
@@ -101,6 +124,11 @@ async function deleteProject(id) {
   <button
     onClick={() => deleteProject(project.id)}
   >
+    <button
+  onClick={() => updateStatus(project)}
+>
+  Update Status
+</button>
     Delete
   </button>
 </div>
