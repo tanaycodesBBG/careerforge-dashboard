@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   SignInButton,
   SignUpButton,
   SignedIn,
   SignedOut,
   UserButton,
+  useUser,
 } from "@clerk/clerk-react";
 
 import {
@@ -16,6 +17,7 @@ import {
   Rocket,
 } from "lucide-react";
 
+import { supabase } from "./lib/supabase";
 import ProjectTracker from "./components/ProjectTracker";
 import InternshipTracker from "./components/InternshipTracker";
 import Contact from "./components/Contact";
@@ -23,10 +25,15 @@ import SkillsProgress from "./components/SkillsProgress";
 import "./App.css";
 
 function App() {
+  const { user } = useUser();
+
   const [fileName, setFileName] = useState("");
   const [showResult, setShowResult] = useState(false);
   const [atsScore, setAtsScore] = useState(0);
+  const [feedback, setFeedback] = useState("");
   const [darkMode, setDarkMode] = useState(true);
+  const [resumeHistory, setResumeHistory] = useState([]);
+
   function handleFileChange(event) {
     const file = event.target.files[0];
 
@@ -36,18 +43,65 @@ function App() {
     }
   }
 
-  function analyzeResume() {
-  if (!fileName) {
-    alert("Please upload a resume first");
-    return;
+  async function fetchResumeHistory() {
+    if (!user) return;
+
+    const { data, error } = await supabase
+      .from("resumes")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    setResumeHistory(data || []);
   }
 
-  const randomScore =
-    Math.floor(Math.random() * 31) + 70;
+  async function analyzeResume() {
+    if (!fileName) {
+      alert("Please upload a resume first");
+      return;
+    }
 
-  setAtsScore(randomScore);
-  setShowResult(true);
-}
+    const randomScore = Math.floor(Math.random() * 31) + 70;
+
+    const resumeFeedback =
+      randomScore < 75
+        ? "Your resume needs significant improvement. Add projects, skills and links."
+        : randomScore <= 85
+        ? "Good resume. Add measurable achievements and improve formatting."
+        : "Excellent resume. Ready for most internship applications.";
+
+    setAtsScore(randomScore);
+    setFeedback(resumeFeedback);
+    setShowResult(true);
+
+    const { error } = await supabase.from("resumes").insert([
+      {
+        user_id: user?.id,
+        file_name: fileName,
+        score: randomScore,
+        feedback: resumeFeedback,
+      },
+    ]);
+
+    if (error) {
+      console.log(error);
+      alert("Resume result was shown but not saved.");
+      return;
+    }
+
+    fetchResumeHistory();
+  }
+
+  useEffect(() => {
+    if (user) {
+      fetchResumeHistory();
+    }
+  }, [user]);
 
   return (
     <div className={darkMode ? "app dark" : "app light"}>
@@ -55,11 +109,10 @@ function App() {
         <h2>CareerForge</h2>
 
         <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
-          <button
-  onClick={() => setDarkMode(!darkMode)}
->
-  {darkMode ? "☀️ Light" : "🌙 Dark"}
-</button>
+          <button onClick={() => setDarkMode(!darkMode)}>
+            {darkMode ? "☀️ Light" : "🌙 Dark"}
+          </button>
+
           <SignedOut>
             <SignInButton mode="modal">
               <button>Sign In</button>
@@ -71,10 +124,16 @@ function App() {
           </SignedOut>
 
           <SignedIn>
-  <div style={{ background: "white", padding: "6px", borderRadius: "50%" }}>
-    <UserButton />
-  </div>
-</SignedIn>
+            <div
+              style={{
+                background: "white",
+                padding: "6px",
+                borderRadius: "50%",
+              }}
+            >
+              <UserButton />
+            </div>
+          </SignedIn>
         </div>
       </nav>
 
@@ -86,9 +145,9 @@ function App() {
           and internship preparation.
         </p>
 
-      <a href="#resume" className="hero-button">
-  <Rocket size={18} /> Start Building
-</a>
+        <a href="#resume" className="hero-button">
+          <Rocket size={18} /> Start Building
+        </a>
       </section>
 
       <section id="features" className="section">
@@ -148,7 +207,7 @@ function App() {
         </SignedOut>
 
         <SignedIn>
-          <p>Upload your resume PDF and get an instant sample review.</p>
+          <p>Upload your resume PDF and get an instant review.</p>
 
           <input type="file" accept=".pdf" onChange={handleFileChange} />
 
@@ -163,58 +222,81 @@ function App() {
           {showResult && (
             <div className="result">
               <h3>Resume Report</h3>
+
               <p>
-  <b>ATS Score:</b>{" "}
-  <span
-    style={{
-      color:
-        atsScore < 75
-          ? "red"
-          : atsScore <= 85
-          ? "orange"
-          : "limegreen",
-      fontWeight: "bold",
-    }}
-  >
-    {atsScore}/100
-  </span>
-</p>
+                <b>ATS Score:</b>{" "}
+                <span
+                  style={{
+                    color:
+                      atsScore < 75
+                        ? "red"
+                        : atsScore <= 85
+                        ? "orange"
+                        : "limegreen",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {atsScore}/100
+                </span>
+              </p>
+
               <p>
                 <b>Strong Area:</b> Technical skills section.
               </p>
+
               <p>
                 <b>Weak Area:</b> Missing impact metrics.
               </p>
+
               <p>
-  <b>Suggestion:</b>{" "}
-  {atsScore < 75
-    ? "Your resume needs significant improvement. Add projects, skills and links."
-    : atsScore <= 85
-    ? "Good resume. Add measurable achievements and improve formatting."
-    : "Excellent resume. Ready for most internship applications."}
-</p>
+                <b>Suggestion:</b> {feedback}
+              </p>
             </div>
           )}
+
+          <div className="result">
+            <h3>Previous Resume Analyses</h3>
+
+            {resumeHistory.length === 0 ? (
+              <p>No resume analyses saved yet.</p>
+            ) : (
+              resumeHistory.map((resume) => (
+                <div key={resume.id} style={{ marginBottom: "15px" }}>
+                  <p>
+                    <b>File:</b> {resume.file_name}
+                  </p>
+                  <p>
+                    <b>Score:</b> {resume.score}/100
+                  </p>
+                  <p>
+                    <b>Feedback:</b> {resume.feedback}
+                  </p>
+                  <hr />
+                </div>
+              ))
+            )}
+          </div>
         </SignedIn>
       </section>
-     
+
       <SignedIn>
-  <ProjectTracker />
-  <InternshipTracker />
-  <SkillsProgress />
-</SignedIn>
+        <ProjectTracker />
+        <InternshipTracker />
+        <SkillsProgress />
+      </SignedIn>
 
-<SignedOut>
-  <section className="section">
-    <h2>Login Required</h2>
-    <p>
-      Please sign in to access your personal dashboard,
-      projects and internship tracker.
-    </p>
-  </section>
-</SignedOut>
+      <SignedOut>
+        <section className="section">
+          <h2>Login Required</h2>
+          <p>
+            Please sign in to access your personal dashboard, projects and
+            internship tracker.
+          </p>
+        </section>
+      </SignedOut>
 
-<Contact />
+      <Contact />
+
       <section id="roadmap" className="section">
         <h2>Your 4-Step Career Roadmap</h2>
 
