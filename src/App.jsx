@@ -23,6 +23,7 @@ import ProjectTracker from "./components/ProjectTracker";
 import InternshipTracker from "./components/InternshipTracker";
 import Contact from "./components/Contact";
 import SkillsProgress from "./components/SkillsProgress";
+import EventCalendar from "./components/EventCalendar";
 import "./App.css";
 
 function App() {
@@ -303,10 +304,11 @@ function App() {
       </section>
 
       <SignedIn>
-        <ProjectTracker />
-        <InternshipTracker />
-        <SkillsProgress />
-      </SignedIn>
+  <EventCalendar />
+  <ProjectTracker />
+  <InternshipTracker />
+  <SkillsProgress />
+</SignedIn>
 
       <SignedOut>
         <section className="section">
