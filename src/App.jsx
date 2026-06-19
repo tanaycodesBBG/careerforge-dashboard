@@ -26,6 +26,7 @@ import SkillsProgress from "./components/SkillsProgress";
 import EventCalendar from "./components/EventCalendar";
 import DashboardStats from "./components/DashboardStats";
 import UpcomingEvents from "./components/UpcomingEvents";
+import CalendarView from "./components/CalendarView";
 import "./App.css";
 
 function App() {
@@ -308,6 +309,7 @@ function App() {
       <SignedIn>
   <DashboardStats />
   <UpcomingEvents />
+  <CalendarView />
   <EventCalendar />
   <ProjectTracker />
   <InternshipTracker />
