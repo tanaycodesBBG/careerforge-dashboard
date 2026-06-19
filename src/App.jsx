@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 
 import { supabase } from "./lib/supabase";
+import { extractPdfText } from "./lib/extractPdfText";
 import ProjectTracker from "./components/ProjectTracker";
 import InternshipTracker from "./components/InternshipTracker";
 import Contact from "./components/Contact";
@@ -28,21 +29,23 @@ function App() {
   const { user } = useUser();
 
   const [fileName, setFileName] = useState("");
+  const [resumeFile, setResumeFile] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const [atsScore, setAtsScore] = useState(0);
   const [feedback, setFeedback] = useState("");
   const [darkMode, setDarkMode] = useState(true);
   const [resumeHistory, setResumeHistory] = useState([]);
 
+
   function handleFileChange(event) {
-    const file = event.target.files[0];
+  const file = event.target.files[0];
 
-    if (file) {
-      setFileName(file.name);
-      setShowResult(false);
-    }
+  if (file) {
+    setResumeFile(file);
+    setFileName(file.name);
+    setShowResult(false);
   }
-
+}
   async function fetchResumeHistory() {
     if (!user) return;
 
@@ -61,41 +64,61 @@ function App() {
   }
 
   async function analyzeResume() {
-    if (!fileName) {
-      alert("Please upload a resume first");
+  if (!resumeFile) {
+    alert("Please upload a resume first");
+    return;
+  }
+
+  try {
+    const resumeText = await extractPdfText(resumeFile);
+
+    if (!resumeText.trim()) {
+      alert("Could not read text from this PDF");
       return;
     }
 
-    const randomScore = Math.floor(Math.random() * 31) + 70;
+    const response = await fetch("/api/analyze-resume", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        resumeText,
+      }),
+    });
 
-    const resumeFeedback =
-      randomScore < 75
-        ? "Your resume needs significant improvement. Add projects, skills and links."
-        : randomScore <= 85
-        ? "Good resume. Add measurable achievements and improve formatting."
-        : "Excellent resume. Ready for most internship applications.";
+    const result = await response.json();
 
-    setAtsScore(randomScore);
-    setFeedback(resumeFeedback);
+    if (!response.ok) {
+      alert(result.error || "Resume analysis failed");
+      return;
+    }
+
+    setAtsScore(result.score);
+    setFeedback(result.feedback);
     setShowResult(true);
 
     const { error } = await supabase.from("resumes").insert([
       {
         user_id: user?.id,
         file_name: fileName,
-        score: randomScore,
-        feedback: resumeFeedback,
+        score: result.score,
+        feedback: result.feedback,
       },
     ]);
 
     if (error) {
       console.log(error);
-      alert("Resume result was shown but not saved.");
+      alert("Analysis shown but not saved.");
       return;
     }
 
     fetchResumeHistory();
+  } catch (error) {
+    console.log(error);
+    alert("Something went wrong while analyzing resume");
   }
+}
 
   useEffect(() => {
     if (user) {
